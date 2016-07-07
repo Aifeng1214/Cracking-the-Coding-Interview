@@ -1,0 +1,15 @@
+http://www.nowcoder.com/practice/bc12808a2b0f445c96a64406d5513e96?tpId=8&tqId=11001&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+//思路：
+1. 将s2+s2，则如果s2是由s1翻转而来的话则s1必然是s2s2子字符串
+class ReverseEqual {
+public:
+    bool checkReverseEqual(string s1, string s2) {
+        // write code here
+        s2+=s2;
+        if(s2.find(s1)!=string::npos)
+            return true;
+        else
+            return false;
+    }
+};
