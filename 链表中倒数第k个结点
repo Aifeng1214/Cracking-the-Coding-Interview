@@ -1,0 +1,26 @@
+http://www.nowcoder.com/practice/529d3ae5a407492994ad2a246518148a?tpId=8&tqId=11002&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+//思路：
+两个指针，先让第一个指针和第二个指针都指向头结点，然后再让第一个指正走(k-1)步;
+到达第k个节点。然后两个指针同时往后移动，当第一个结点到达末尾的时候，第二个结点所在位置就是倒数第k个节点了。
+class Solution {
+public:
+    ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+        if( pListHead==NULL||k<=0) return NULL;
+        ListNode *pk;
+        ListNode *p;
+ 
+        pk = pListHead;
+        p = pListHead;
+ 
+        for( int i = 0; i < k-1 ; i++){
+            if(p->next) p = p->next;
+            else return NULL;
+        }
+        while(p->next){
+            p = p->next;
+            pk = pk->next;           
+        }
+        return pk;    
+    }
+};
