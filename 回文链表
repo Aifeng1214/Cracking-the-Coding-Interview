@@ -1,0 +1,31 @@
+http://www.nowcoder.com/practice/baefd05def524a92bcfa6e1f113ed4f0?tpId=8&tqId=11006&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+//思路：
+1.快慢指针，慢指针一次移动一步，快指针一次移动两步；
+2.将慢指针节点的值压入栈，到达中间节点后，依次出栈与后续节点的值比较；
+3.特别注意长度奇偶数。
+class Palindrome {
+public:
+    bool isPalindrome(ListNode* pHead) {
+        // write code here
+        ListNode *slow=pHead;
+        ListNode *fast=pHead;
+        stack<int>stk;
+        while(fast && fast->next){
+            stk.push(slow->val);
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        if(fast!=NULL) 
+            slow=slow->next;
+        while(slow){
+            if(stk.top()!=slow->val)
+                return false;
+            else{
+                stk.pop();
+                slow=slow->next;
+            }     
+        }
+        return true;
+    }
+};
