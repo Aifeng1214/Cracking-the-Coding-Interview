@@ -1,0 +1,23 @@
+http://www.nowcoder.com/practice/ed85a09f0df047119e94fb3e5569855a?tpId=8&tqId=11005&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+class Plus {
+public:
+    ListNode* plusAB(ListNode* a, ListNode* b) {
+        // write code here
+        int carry=0;
+        ListNode *head = new ListNode(0);
+        ListNode *p=head;
+        while(a || b ||carry){
+            int aval=a?a->val:0;
+            int bval=b?b->val:0;
+            int tmp=(aval+bval+carry)%10;
+            carry=(aval+bval+carry)/10;
+            ListNode *t=new ListNode(tmp);
+            p->next=t;
+            p=p->next;
+            a=a?a->next:NULL;
+            b=b?b->next:NULL;
+        }
+        return head->next;
+    }
+};
