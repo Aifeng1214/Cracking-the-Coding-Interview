@@ -1,0 +1,19 @@
+http://www.nowcoder.com/practice/17ab1e527c504df09a600e1af09d9a60?tpId=8&tqId=10999&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+//思路
+1. 先按右上角到左下角的方式对换数据
+2. 再将上下数据翻转 即为右转90度后的结果
+class Transform {
+public:
+    vector<vector<int> > transformImage(vector<vector<int> > mat, int n) {
+        // write code here
+        int row=mat.size();
+        for(int i=0;i<row;++i){
+            for(int j=0;i+j<n-1;++j)
+                swap(mat[i][j],mat[n-1-j][n-1-i]);
+        }
+        for(int i=0;i<n/2;++i)
+            swap(mat[i],mat[n-1-i]);
+        return mat;
+    }
+};
