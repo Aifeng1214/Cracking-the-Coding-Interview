@@ -1,0 +1,74 @@
+http://www.nowcoder.com/practice/6235a76b1e404f748f7c820583125c50?tpId=8&tqId=11010&rp=1&ru=/ta/cracking-the-coding-interview&qru=/ta/cracking-the-coding-interview/question-ranking
+
+//思路
+1. 一个deque来记录待收养的猫和狗
+2. 对ope[i][0]和deque.empty()的值做判断分几种情况：
+1）ope[i][0]==1：直接在deque后添加进来的动物
+2）ope[i][0]==2 && dq.empty()：有人要收养但是没有动物，跳过
+3）ope[i][0]==2 && !dq.empty() && ope[i][1]==0：有人收养，有动物，直接把最先进来的放出去
+4）ope[i][0]==2 && !dq.empty() && ope[i][1]==1： 有人要收养狗，有动物，要对deque的数据做处理
+5）ope[i][0]==2 && !dq.empty() && ope[i][1]==-1：有人要收养猫，有动物，要对deque的数据做处理
+
+class CatDogAsylum {
+public:
+    vector<int> asylum(vector<vector<int> > ope) {
+        vector<int> res;
+        deque<int> dq;
+        deque<int> tmp;
+        for(int i=0; i<ope.size(); ++i){
+            if(ope[i][0]==1){
+                dq.push_back(ope[i][1]);
+            }
+            else if(ope[i][0]==2 && dq.empty()){
+                continue;
+            }
+            else if(ope[i][0]==2 && !dq.empty() && ope[i][1]==0){
+                res.push_back(dq.front());
+                dq.pop_front();
+            }
+            else if(ope[i][0]==2 && !dq.empty() && ope[i][1]==1){
+                tmp.clear();
+                while(dq.front()<=0 && !dq.empty()){
+                    tmp.push_back(dq.front());
+                    dq.pop_front();
+                }
+                if(dq.empty()){
+                    while(!tmp.empty()){
+                        dq.push_back(tmp.front());
+                        tmp.pop_front();
+                    }
+                }else{
+                    res.push_back(dq.front());
+                    dq.pop_front();
+                    while(!dq.empty()){
+                        tmp.push_back(dq.front());
+                        dq.pop_front();
+                    }
+                    dq=tmp;
+                }
+            }
+            else if(ope[i][0]==2 && !dq.empty() && ope[i][1]==-1){
+                tmp.clear();
+                while(dq.front()>=0 && !dq.empty()){
+                    tmp.push_back(dq.front());
+                    dq.pop_front();
+                }
+                if(dq.empty()){
+                    while(!tmp.empty()){
+                        dq.push_back(tmp.front());
+                        tmp.pop_front();
+                    }
+                }else{
+                    res.push_back(dq.front());
+                    dq.pop_front();
+                    while(!dq.empty()){
+                        tmp.push_back(dq.front());
+                        dq.pop_front();
+                    }
+                    dq=tmp;
+                }
+            }
+        }
+        return res;
+    }
+};
