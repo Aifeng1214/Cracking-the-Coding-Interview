@@ -1,0 +1,44 @@
+实现一个函数，检查二叉树是否平衡，平衡的定义如下，对于树中的任意一个结点，其两颗子树的高度差不超过1。
+给定指向树根结点的指针TreeNode* root，请返回一个bool，代表这棵树是否平衡。
+
+<方法1>：
+1.检查左右子树的高度差判断当前结点是否平衡
+2.再判断左右子树是否平衡
+class Balance {
+public:
+    int depth(TreeNode* root){
+        if(root==NULL) return 0;
+        return max(depth(root->left),depth(root->right))+1;
+    }
+    bool isBalance(TreeNode* root) {
+        if(root==NULL) return true;
+        
+        int left=depth(root->left);
+        int right=depth(root->right);
+        
+        return abs(left-right)<=1 && isBalance(root->left) && isBalance(root->right);
+    }
+};
+
+
+<方法2>：
+1.DFS的思想，在DFS递归中返回当前结点的高度
+2.当前结点的子树是平衡子树的时候，返回一个非负的值；否则返回-1
+3.根据左右子树的左右高度，当前结点可以判断子树是否平衡，给出返回值
+class solution {
+public:
+int dfsHeight (TreeNode *root) {
+        if (root == NULL) return 0;
+        
+        int leftHeight = dfsHeight (root -> left);
+        if (leftHeight == -1) return -1;
+        int rightHeight = dfsHeight (root -> right);
+        if (rightHeight == -1) return -1;
+        
+        if (abs(leftHeight - rightHeight) > 1)  return -1;
+        return max (leftHeight, rightHeight) + 1;
+    }
+    bool isBalance(TreeNode *root) {
+        return dfsHeight (root) != -1;
+    }
+};
