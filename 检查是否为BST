@@ -1,0 +1,59 @@
+方法1：
+中序遍历二叉树，BST的话中序遍历的数组是递增的
+class Checker {
+public:
+    bool checkBST(TreeNode* root) {
+        stack<TreeNode*> s;
+        TreeNode *pNode = root;
+        vector<int> data;
+        while (pNode != NULL || !s.empty())
+        {
+            while (pNode != NULL)
+            {
+                s.push(pNode);
+                pNode = pNode->left;
+            }
+            if (!s.empty())
+            {
+                pNode = s.top();
+                data.push_back(pNode->val);
+                s.pop();
+                pNode = pNode->right;
+            }
+        }
+        for (size_t i = 0; i < data.size()-1; i++)
+        {
+            if (data[i] > data[i + 1])
+                return false;
+        }
+        return true;
+    }
+};
+
+
+方法2：
+利用BST的性质，保证根的左子树的值和左子树的右子树的值不大于根节点；保证根的右子树的值和右子树的左子树的值不小于根节点
+class Checker {
+public:
+    bool checkBST(TreeNode* root) {
+        // write code here
+        if(root==NULL)
+            return true;
+         
+        if(root->left!=NULL){
+            if(root->left->val>root->val)
+                return false;
+            if(root->left->right!=NULL&&root->left->right->val>root->val)
+                return false;
+        }
+         
+        if(root->right!=NULL){
+            if(root->right->val<root->val)
+                return false;
+            if(root->right->left!=NULL&&root->right->left->val<root->val)
+                return false;
+        }
+             
+        return checkBST(root->left) && checkBST(root->right);
+    }
+};
